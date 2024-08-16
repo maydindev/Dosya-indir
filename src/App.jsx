@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import './styles.css'
-import TopText from './components/TopText'
+import { useState } from "react";
+import "./styles.css";
+import TopText from "./components/TopText";
 
 export default function App() {
   /* Challenge
@@ -23,20 +23,37 @@ export default function App() {
        
 */
 
-  const [filesToUpload, setFilesToUpload] = useState([])
+  const [filesToUpload, setFilesToUpload] = useState([]);
+
+  const handleFileChange = (event) => {
+    const selectedFiles = Array.from(event.target.files);
+    const filesArray = selectedFiles.map((file) => ({
+      fileName: file.name,
+      fileType: file.type,
+      fileSize: file.size,
+    }));
+    setFilesToUpload(filesArray);
+  };
 
   function handleSubmit(e) {
-    e.preventDefault()
-    filesToUpload.forEach((file) => console.log(file))
+    e.preventDefault();
+    filesToUpload.forEach((file) => console.log(file));
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <TopText />
 
-      <input type='file' />
+      <input
+        id="myfiles"
+        type="file"
+        required
+        multiple
+        accept=".pdf,.jpg,.jpeg,.png"
+        onChange={handleFileChange}
+      />
 
       <button>Upload </button>
     </form>
-  )
+  );
 }
